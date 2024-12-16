@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Data</title>
+</head>
+<body>
+    <div>
+        <button onclick="getData()" style="width: 100px;">GET</button>
+    </div>
+    <div id="result" style="font-size: 14pt; margin-top: 50px;"></div>
+
+    <script>
+        function getData() {
+            fetch('http://localhost:5000/api/db', { 
+                method: 'GET', mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            })
+            .then(response => response.json())
+            .then((data) => {
+                let result = document.getElementById('result');
+                result.innerHTML = '';
+                for (let i = 0; i < data.length; i++) {
+                    let item = document.createElement('div');
+                    item.innerHTML = data[i].id + ' ' + data[i].name + ' ' + data[i].bday;
+                    result.appendChild(item);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

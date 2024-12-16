@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Server</title>
+</head>
+
+<body>
+    <div>
+        <div style="justify-content: center; margin-left: 40%; margin-right: 40%; margin-top: 20px;">
+            <label>ID</label>
+            <input type="number" id="ID" min="0" />
+        </div>
+
+        <div style="justify-content: center; margin-left: 40%; margin-right: 40%; margin-top: 20px;">
+            <label>Name</label>
+            <input type="text" id="Name" />
+        </div>
+
+        <div style="justify-content: center; margin-left: 40%; margin-right: 40%; margin-top: 20px;">
+            <label>B-Day</label>
+            <input type="date" id="BDay" />
+        </div>
+    </div>
+
+    <div style="justify-content: center; margin-left: 15%; margin-right: 15%; margin-top: 20px;">
+        <button onclick="Get()" style="width: 100px;">GET</button>
+        <button onclick="Post()" style="width: 100px;">POST</button>
+        <button onclick="Put()" style="width: 100px;">PUT</button>
+        <button onclick="Delete()" style="width: 100px;">DELETE</button>
+    </div>
+    <div id="result" style="font-size: 14pt; margin-top: 50px;">Здесь должен быть результат</div>
+
+    <script>
+        function Get() {
+            fetch('http://localhost:5000/api/db', {
+                method: 'GET',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => { return response.json(); })
+            .then((json_data) => {
+                // let result = document.getElementById('result');
+                // result.innerHTML = JSON.stringify(json_data);
+                // console.log(json_data);
+                document.getElementById('result').innerHTML = JSON.stringify(json_data);
+            });
+        }
+
+        function Post() {
+            fetch('http://localhost:5000/api/db', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: parseInt(ID.value, 10),
+                    name: Name.value,
+                    bday: BDay.value
+                })
+            })
+            .then(response => response.json())
+            .then((json_data) => {
+                let result = document.getElementById('result');
+                result.innerHTML = JSON.stringify(json_data);
+                console.log(json_data);
+            });
+        }
+
+        function Put() {
+            fetch('http://localhost:5000/api/db', {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: parseInt(ID.value, 10),
+                    name: Name.value,
+                    bday: BDay.value
+                })
+            })
+            .then(response => response.json())
+            .then((json_data) => {
+                let result = document.getElementById('result');
+                result.innerHTML = JSON.stringify(json_data);
+                console.log(json_data);
+            });
+        }
+
+        function Delete() {
+            fetch('http://localhost:5000/api/db', {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: ID.value
+                })
+            })
+            .then(response => response.json())
+            .then((json_data) => {
+                let result = document.getElementById('result');
+                result.innerHTML = JSON.stringify(json_data);
+                console.log(json_data);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
